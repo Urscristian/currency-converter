@@ -1,0 +1,23 @@
+version: "3.7"
+
+services:
+  django-project:
+    container_name: currency-converter
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./project/:/project/
+    env_file:
+      - .env
+  nginx:
+    container_name: currency-converter-nginx
+    image: nginx:1.19.0-alpine
+    ports:
+      - "8020:80"
+    volumes:
+      - ./nginx:/etc/nginx/conf.d/
+    depends_on:
+      - django-project
+    restart: always
