@@ -10,17 +10,9 @@ ALLOWED_HOSTS = ["project.kpmtransport.no"]
 if DEBUG:
     ALLOWED_HOSTS.extend(["0.0.0.0", "127.0.0.1"]) # windows
 
-INSTALLED_APPS = [
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-]
+INSTALLED_APPS = []
 
-MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.middleware.common.CommonMiddleware',
-]
+MIDDLEWARE = []
 
 ROOT_URLCONF = 'project.urls'
 

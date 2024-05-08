@@ -1,6 +1,5 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from django.middleware.csrf import get_token
 import urllib.request
 import xml.etree.ElementTree as ET
 
@@ -13,7 +12,7 @@ def get_exchange_rates():
     currency_data = root.findall('.//{*}Cube[@currency][@rate]')
     rates = {item.attrib['currency']: float(item.attrib['rate']) for item in currency_data}
     # EUR nu e prezent in XML
-    rates['EUR'] = 1.0 
+    rates['EUR'] = 1.0
 
     # Filtrare valute
     allowed_currencies = ['RON', 'EUR', 'USD', 'GBP', 'CHF', 'BGN', 'HUF']
@@ -23,7 +22,6 @@ def get_exchange_rates():
 
 def home(request):
     rates = get_exchange_rates()
-    csrf_token = get_token(request)
 
     if request.method == 'POST':
         amount = float(request.POST['amount'])
@@ -42,7 +40,6 @@ def home(request):
     response_content = (
         f'<form method="post" style="padding: 20px;">'
         f'<h1>Conversie valutara</h1>'
-        f'<input type="hidden" name="csrfmiddlewaretoken" value="{csrf_token}">'
         f'<input type="number" name="amount" step="0.01" required style="height: 30px;" placeholder="Suma de schimbat">'
         f'<select name="from_currency" style="height: 30px;">'
         f'{"".join(f"<option value={currency}>{currency}</option>" for currency in rates.keys())}'
